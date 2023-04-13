@@ -51,7 +51,7 @@ This code uses the adobe240fps dataset to train the model. To extract frames, ru
 python super-slomo/frame_extraction.py path/to/dataset path/to/destination 
 ```
 
-It will use ffmepg to extract the frames and put them in the destination folder, grouped in folders of 12 consecutive frames.
+It will use ffmpeg to extract the frames and put them in the destination folder, grouped in folders of 12 consecutive frames.
 If ffmpeg is not available, it falls back to slower opencv.
 
 For info run:
