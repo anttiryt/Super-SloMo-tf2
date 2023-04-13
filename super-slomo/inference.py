@@ -105,7 +105,7 @@ def predict(
     :param fps_out: fps of the output video
     :return:
     """
-    data_path, w, h, numSourceFrames = extract_frames(video_path, output_path)
+    data_path, w, h, numSourceFrames = extract_frames(video_path)
 
     model = SloMoNet(n_frames=n_frames + 2)
     tf.train.Checkpoint(net=model).restore(str(model_path)).expect_partial()
