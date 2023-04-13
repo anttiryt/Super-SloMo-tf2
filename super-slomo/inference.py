@@ -12,14 +12,13 @@ import dataset
 from models.slomo_model import SloMoNet
 
 
-def extract_frames(video_path: pathlib.Path, output_path: pathlib.Path):
+def extract_frames(video_path: pathlib.Path):
     """
     Extract frames from videos in the input folder.
-    :param video_path:
-    :param output_path:
+    :param video_path: path to source video
     :return: the output filename and the dimensions and number of frames 
     """
-    output_filename = tempfile.mkdtemp()
+    data_path = tempfile.mkdtemp()
     vidcap = cv2.VideoCapture(str(video_path))
 
     width = int(vidcap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -30,7 +29,7 @@ def extract_frames(video_path: pathlib.Path, output_path: pathlib.Path):
     while success:
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         cv2.imwrite(
-            "{}/frame%04d.jpg".format(output_filename) % count, image
+            "{}/frame%04d.jpg".format(data_path) % count, image
         )  # save frame as JPEG file
         success, image = vidcap.read()
         count += 1
