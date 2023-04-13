@@ -16,7 +16,7 @@ def extract_frames(video_path: pathlib.Path, output_path: pathlib.Path):
     Extract frames from videos in the input folder.
     :param video_path:
     :param output_path:
-    :return: the output filename and the size of the frames
+    :return: the output filename and the dimensions and number of frames 
     """
     output_filename = output_path.parent / "tmp"
     pathlib.Path(output_filename).mkdir(parents=True, exist_ok=True)
@@ -35,7 +35,10 @@ def extract_frames(video_path: pathlib.Path, output_path: pathlib.Path):
         success, image = vidcap.read()
         count += 1
     vidcap.release()
-    return output_filename, width, height
+    numSourceFrames = count
+    data_path = output_filename
+
+    return data_path, width, height, numSourceFrames
 
 
 def load_dataset(data_path: pathlib.Path, batch_size: int = 32):
@@ -103,12 +106,12 @@ def predict(
     :param fps_out: fps of the output video
     :return:
     """
-    data_path, w, h = extract_frames(video_path, output_path)
+    data_path, w, h, numSourceFrames = extract_frames(video_path, output_path)
 
     model = SloMoNet(n_frames=n_frames + 2)
     tf.train.Checkpoint(net=model).restore(str(model_path)).expect_partial()
     ds = load_dataset(data_path, 1)
-    progbar = tf.keras.utils.Progbar(None)
+    progbar = tf.keras.utils.Progbar( (numSourceFrames-1) * n_frames )
 
     fourcc = cv2.VideoWriter_fourcc(*"mp4v")
     out_video = cv2.VideoWriter(str(output_path), fourcc, fps_out, (w, h))
