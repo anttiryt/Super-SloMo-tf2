@@ -35,7 +35,6 @@ def extract_frames(video_path: pathlib.Path):
         count += 1
     vidcap.release()
     numSourceFrames = count
-    data_path = output_filename
 
     return data_path, width, height, numSourceFrames
 
