@@ -39,10 +39,12 @@ To generate a slomo video run:
 ```bash
 python super-slomo/inference.py path/to/source/video path/to/slomo/video --model path/to/model --n_frames 20 --fps 480
 ```
-where path-to-model can be e.g.
+where path/to/model can be e.g.
 ```/home/user/chckpnt259/ckpt-259```
 or
-```/home/user/modelDir/weights_final_5.tf```
+```/home/user/modelDir/weights_final_5.tf```. 
+
+Model checkpoints don't work, as frames are left blank red.  
 
 
 ## Train
